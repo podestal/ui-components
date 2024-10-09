@@ -10,6 +10,7 @@ const App = () => {
       <div className="w-[250px]">
         <Input 
           error=""
+          type="password"
         />
       </div>
     </div>
