@@ -7,7 +7,11 @@ const App = () => {
       className="w-full h-screen flex flex-col justify-center items-center bg-slate-950 gap-12"
     >
       <h2 className="text-slate-50 text-5xl">Components</h2>
-      <Input />
+      <div className="w-[250px]">
+        <Input 
+          error=""
+        />
+      </div>
     </div>
   )
 }
