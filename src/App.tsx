@@ -4,11 +4,20 @@ import Input from "./components/Input"
 const App = () => {
 
   const [value, setValue] = useState('')
+  const [error, setError] = useState('')
   const valueRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    console.log(valueRef.current?.value);
+    setError('')
+
+    const value = valueRef.current?.value
+    
+    if(value?.length === 0) {
+      setError('This value is necessary')
+      return
+    }
+    console.log('Submitted:',value)
     
     
   }
@@ -24,9 +33,10 @@ const App = () => {
         <Input 
           placeholder="Name"
           type="password"
+          error={error}
           // value={value}
           // setValue={setValue}
-          // ref={valueRef}
+          ref={valueRef}
         />
         <button>Submit</button>
       </form>
