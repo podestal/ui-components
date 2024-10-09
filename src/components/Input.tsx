@@ -1,7 +1,6 @@
-import React, { Dispatch, SetStateAction, useState, forwardRef } from "react";
+import React, { Dispatch, SetStateAction, useState, forwardRef, useEffect } from "react";
 import { RiEyeFill, RiEyeOffFill } from "@remixicon/react";
 
-// Define the props interface
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     placeholder?: string
     error?: string
@@ -10,7 +9,6 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     setValue?: Dispatch<SetStateAction<string>>
 }
 
-// Use forwardRef to wrap the component
 const Input = forwardRef<HTMLInputElement, Props>(({
     placeholder,
     error,
@@ -20,7 +18,13 @@ const Input = forwardRef<HTMLInputElement, Props>(({
     ...props 
 }, ref) => {
     const [showPassword, setShowPassword] = useState(type === 'password');
-    const [showError, setShowError] = useState(error ? true : false)
+    const [showError, setShowError] = useState(false)
+
+    useEffect(() => {   
+        if (error) {
+            setShowError(true)
+        }
+    }, [error])
 
     const handleShowPassword = () => {
         setShowPassword(prev => !prev);
@@ -48,12 +52,14 @@ const Input = forwardRef<HTMLInputElement, Props>(({
     }
 
     return (
-        <div className="max-w-[300px] flex flex-col justify-center items-center gap-4 relative">
+        <div className="max-w-[300px] flex flex-col justify-center items-center gap-4 relative my-2">
+            <>{console.log('Error:', error)}
+            </>
+            <>{console.log('show Error:', showError)}
+            </>
             <div className="relative w-full">
-                <>{console.log('error:', error)}</>
-                <>{console.log('showError:', showError)}</>
                 <input
-                    ref={ref} // Attach the forwarded ref here
+                    ref={ref}
                     className={`bg-gray-950 border-2 rounded-lg w-full text-slate-50 text-xs px-2 py-2 focus:border-blue-700 focus:outline-none
                                 ${showError ? 'border-red-500' : 'border-gray-800'}
                             `}
@@ -61,10 +67,11 @@ const Input = forwardRef<HTMLInputElement, Props>(({
                     type={showPassword && type === 'password' ? 'text' : type} // Use showPassword to toggle visibility
                     value={value}
                     onChange={handleInputChange}
-                    {...props} // Pass other props (e.g., onBlur, onFocus, etc.)
+                    {...props} 
                 />
                 {type === 'password' && (
                     <button
+                        type="button"
                         onClick={handleShowPassword}
                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-600 hover:text-gray-400"
                     >

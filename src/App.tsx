@@ -1,10 +1,14 @@
 import { useRef, useState } from "react"
 import Input from "./components/Input"
+import TextArea from "./components/TextArea"
 
 const App = () => {
 
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
+  const [errorText, seterrorText] = useState('')
+
+  const textRef = useRef<HTMLTextAreaElement>(null)
   const valueRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -12,12 +16,27 @@ const App = () => {
     setError('')
 
     const value = valueRef.current?.value
+    const text = textRef.current?.value
     
-    if(value?.length === 0) {
+    console.log('text',text);
+
+    if(!value && !text) {
+      setError('This value is necessary')
+      seterrorText('This text is necessary')
+      return
+    }
+
+    if(!value) {
       setError('This value is necessary')
       return
     }
+    
+    if (!text) {
+      seterrorText('This text is necessary')
+      return
+    }
     console.log('Submitted:',value)
+    console.log('Submitted:',text)
     
     
   }
@@ -32,13 +51,15 @@ const App = () => {
         className="w-[250px]">
         <Input 
           placeholder="Name"
-          type="password"
           error={error}
-          // value={value}
-          // setValue={setValue}
           ref={valueRef}
         />
-        <button>Submit</button>
+        <TextArea 
+          error={errorText}
+          ref={textRef}
+        />
+
+        <button className="bg-blue-700 text-slate-50 py-2 px-4 rounded-md hover:bg-blue-600 mx-auto text-center mt-6">Submit</button>
       </form>
     </div>
   )
