@@ -1,22 +1,40 @@
 import { RiEyeFill, RiEyeOffFill } from "@remixicon/react"
-import { useState } from "react"
+import { Dispatch, SetStateAction, useState } from "react"
 
 interface Props {
     placeholder?: string
     error?: string
     type?: string
+    value?: string | number
+    setValue?: Dispatch<SetStateAction<string>>
+    ref?: React.LegacyRef<HTMLInputElement>
 }
 
 const Input = ({
     placeholder,
     error,
-    type
+    type,
+    value,
+    setValue,
+    ref,
 }: Props) => {
 
     const [showPassword, setShowPassword] = useState(type === 'password' && true)
 
     const handleShowPassword = () => {
         setShowPassword(prev => !prev)
+    }
+
+    const handleCheckForNumbers = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value
+        if (type === 'number') {
+            if (/^\d*(\.\d*)?$/.test(newValue)) {
+                setValue && setValue(newValue)
+            }
+        } else {
+            setValue && setValue(newValue)
+        }
+
     }
 
   return (
@@ -29,6 +47,10 @@ const Input = ({
                         `}
             placeholder={placeholder ? placeholder : 'Input ...'}
             type={showPassword ? 'password' : 'text'}
+            value={value}
+            onChange={handleCheckForNumbers}
+            ref={ref}
+            
         />
         {type === 'password' && 
             <button 

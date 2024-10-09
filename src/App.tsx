@@ -1,6 +1,9 @@
+import { useState } from "react"
 import Input from "./components/Input"
 
 const App = () => {
+
+  const [value, setValue] = useState('')
 
   return (
     <div
@@ -10,7 +13,9 @@ const App = () => {
       <div className="w-[250px]">
         <Input 
           error=""
-          type="password"
+          type="number"
+          value={value}
+          setValue={setValue}
         />
       </div>
     </div>
