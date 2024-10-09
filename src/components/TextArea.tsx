@@ -33,13 +33,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(({
 
     return (
         <div className="max-w-[300px] flex flex-col justify-center items-center gap-4 relative my-2">
-                        {/* <>{console.log('Error:', error)}
-            </> */}
-            <div className="relative w-full">
+            <div className="w-full">
                 <textarea
                     ref={ref} 
-                    className={`bg-gray-950 border-2 rounded-lg w-full text-slate-50 text-xs px-2 py-2 focus:border-blue-700 focus:outline-none
-                                ${showError ? 'border-red-500' : 'border-gray-800'}
+                    className={`h-[100px] bg-gray-950 border-2 rounded-lg w-full text-slate-50 text-xs px-2 py-2 focus:border-blue-700 focus:outline-none
+                                ${showError ? 'border-red-500 shake' : 'border-gray-800'}
                             `}
                     placeholder={placeholder ? placeholder : 'Text ...'}
                     value={value}

@@ -34,10 +34,7 @@ const App = () => {
     if (!text) {
       seterrorText('This text is necessary')
       return
-    }
-    console.log('Submitted:',value)
-    console.log('Submitted:',text)
-    
+    }    
     
   }
 
@@ -51,6 +48,7 @@ const App = () => {
         className="w-[250px]">
         <Input 
           placeholder="Name"
+          type="password"
           error={error}
           ref={valueRef}
         />
