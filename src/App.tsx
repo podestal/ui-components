@@ -9,6 +9,9 @@ const App = () => {
   const [error, setError] = useState('')
   const [errorText, seterrorText] = useState('')
 
+  const [loading, setLoading] = useState(false)
+  const [disable, setDisable] = useState(false)
+
   const textRef = useRef<HTMLTextAreaElement>(null)
   const valueRef = useRef<HTMLInputElement>(null);
 
@@ -36,6 +39,11 @@ const App = () => {
       seterrorText('This text is necessary')
       return
     }    
+    setDisable(true)
+    setLoading(true)
+    setTimeout(() => {
+      setLoading(false)
+    }, 3000)
     
   }
 
@@ -59,7 +67,8 @@ const App = () => {
         />
         <Button 
           label="Submit"
-          loading={true}
+          loading={loading}
+          disable={disable}
         />
       </form>
     </div>
