@@ -59,7 +59,7 @@ const App = () => {
         />
         <Button 
           label="Submit"
-          loading={false}
+          loading={true}
         />
       </form>
     </div>
