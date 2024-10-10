@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import Input from "./components/Input"
 import TextArea from "./components/TextArea"
+import Button from "./components/Button"
 
 const App = () => {
 
@@ -56,8 +57,10 @@ const App = () => {
           error={errorText}
           ref={textRef}
         />
-
-        <button className="bg-blue-700 text-slate-50 py-2 px-4 rounded-md hover:bg-blue-600 mx-auto text-center mt-6">Submit</button>
+        <Button 
+          label="Submit"
+          loading={false}
+        />
       </form>
     </div>
   )

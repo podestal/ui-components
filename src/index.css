@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes bounce {
+/* @keyframes bounce {
   0%{
       transform: translateX(-8%);
       animation-timing-function: cubic-bezier(0.8,0,1,1);
@@ -24,6 +24,7 @@
       animation-timing-function: cubic-bezier(0,0,0.2,1);
   } 
 }
+
 .shake {
   animation: bounce 0.4s;
-}
+} */

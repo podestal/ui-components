@@ -9,6 +9,37 @@ interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
     setValue?: Dispatch<SetStateAction<string>>
 }
 
+const styles = {
+    animation: `
+    @keyframes bounce {
+      0% {
+        transform: translateX(-8%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+      }
+      25% {
+        transform: translateX(8%);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+      50% {
+        transform: translateX(-8%);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+      75% {
+        transform: translateX(8%);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+      100% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+    }
+  
+    .shake {
+      animation: bounce 0.4s;
+    }
+  `
+}
+
 const Input = forwardRef<HTMLInputElement, Props>(({
     placeholder,
     error,
@@ -54,6 +85,7 @@ const Input = forwardRef<HTMLInputElement, Props>(({
     return (
         <div className="max-w-[300px] flex flex-col justify-center items-center gap-4 relative my-2">
             <div className="relative w-full">
+                <style dangerouslySetInnerHTML={{ __html: styles.animation }} />
                 <input
                     ref={ref}
                     className={`bg-gray-950 border-2 rounded-lg w-full text-slate-50 text-xs px-2 py-2 focus:border-blue-700 focus:outline-none
