@@ -1,52 +1,99 @@
-// Interface representing a base structure for items with id and name
+import { useEffect, useState } from "react"
+
+const styles = {
+    animation: `
+    @keyframes bounce {
+      0% {
+        transform: translateX(-8%);
+        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+      }
+      25% {
+        transform: translateX(8%);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+      50% {
+        transform: translateX(-8%);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+      75% {
+        transform: translateX(8%);
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+      100% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+      }
+    }
+  
+    .shake {
+      animation: bounce 0.4s;
+    }
+  `
+}
+
 interface Item {
     id: number
     name: string
 }
 
-// Props interface that accepts a generic type T, which must extend Item
-// Ensures that the objects in the values array have at least id and name
 interface Props<T extends Item> {
-    values: T[] // Array of generic items
-    defaultValue?: number // Default selected value, corresponds to item id
-    setter: (value: number) => void // Function to update the selected value
-    label?: string // Text that indicate the type of the selector
-    all?: boolean // Boolean that conditionally renders all values
+    values: T[] 
+    defaultValue?: number 
+    setter: (value: number) => void 
+    label?: string
+    all?: boolean 
+    error?: string
 }
 
-// Selector component that uses a generic type T, extending the Item interface
-const Selector = <T extends Item>({ values, defaultValue=0, setter, label, all }: Props<T>) => {
+const Selector = <T extends Item>({ 
+    values, 
+    defaultValue, 
+    setter, 
+    label, 
+    all ,
+    error,
+    }: Props<T>) => {
   
+    const [showError, setShowError] = useState(false)
+
+    useEffect(() => {   
+        error ? setShowError(true) : setShowError(false)
+    }, [error])
+
+    const handleSelectorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setter(parseInt(e.target.value))
+        setShowError(false)
+    }
+
     return (
-        <div className="w-full flex flex-col mx-auto justify-center items-center gap-4">
-            {/* Label for the selector */}
+        <div className={`w-full flex flex-col mx-auto justify-center items-center ${label && 'gap-4'}`}>
             <p className="text-slate-50">{label}</p>
-            {/* Dropdown (select) element */}
+            <style dangerouslySetInnerHTML={{ __html: styles.animation }} />
             <select
-                defaultValue={defaultValue} // Set the default selected value
-                onChange={e => setter(parseInt(e.target.value))} // Call setter with selected value
-                className="bg-gray-950 border-gray-800 border-2  rounded-lg w-full text-xs text-slate-50 py-2 px-2"
+                defaultValue={defaultValue} 
+                onChange={handleSelectorChange} 
+                className={`
+                    ${showError ? 'border-red-500 shake' : 'border-gray-800'}
+                    bg-gray-950 border-2  rounded-lg w-full text-xs text-slate-50 py-2 px-2`}
             >
                 {all 
                 ?
                 <option value={0}>All</option>
                 :
                 <>
-                {/* If no default value, render a placeholder option */}
                 { !defaultValue && <option value={0}>Select</option>} 
                 </>
                 }
 
-                
-                {/* Map over the values array to render each item as an option */}
                 {values.map((value) => (
                     <option key={value.id} value={value.id}>
-                        {value.name} {/* Display the name of the item */}
+                        {value.name} 
                     </option>
                 ))}
             </select>
+            {showError && <p className="text-xs text-red-500 mx-2 mt-4">{error}</p>}
         </div>      
     )
 }
 
-export default Selector // Export the component for use in other parts of the app
+export default Selector 

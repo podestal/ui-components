@@ -24,11 +24,12 @@ const App = () => {
   const [value, setValue] = useState('')
   const [error, setError] = useState('')
   const [errorText, seterrorText] = useState('')
+  const [errorSelect, setErrorSelect] = useState('')
 
   const [loading, setLoading] = useState(false)
   const [disable, setDisable] = useState(false)
 
-  const [selectedCat, setSelectedCat] = useState(1)
+  const [selectedCat, setSelectedCat] = useState(0)
 
   const textRef = useRef<HTMLTextAreaElement>(null)
   const valueRef = useRef<HTMLInputElement>(null);
@@ -42,9 +43,10 @@ const App = () => {
     
     console.log('text',text);
 
-    if(!value && !text) {
+    if(!value && !text && selectedCat === 0) {
       setError('This value is necessary')
       seterrorText('This text is necessary')
+      setErrorSelect('Select a category')
       return
     }
 
@@ -56,7 +58,13 @@ const App = () => {
     if (!text) {
       seterrorText('This text is necessary')
       return
-    }    
+    }   
+    
+    if (selectedCat === 0) {
+      setErrorSelect('Select a category')
+      return
+    }
+
     setDisable(true)
     setLoading(true)
     setTimeout(() => {
@@ -87,6 +95,7 @@ const App = () => {
           values={categories}
           setter={setSelectedCat}
           defaultValue={0}
+          error={errorSelect}
         />
         <Button 
           label="Submit"
