@@ -2,6 +2,22 @@ import { useRef, useState } from "react"
 import Input from "./components/Input"
 import TextArea from "./components/TextArea"
 import Button from "./components/Button"
+import Selector from "./components/Selector"
+
+const categories = [
+  {
+    id: 1,
+    name: 'Cat1'
+  },
+  {
+    id: 2,
+    name: 'Cat2'
+  },
+  {
+    id: 3,
+    name: 'Cat3'
+  },
+]
 
 const App = () => {
 
@@ -11,6 +27,8 @@ const App = () => {
 
   const [loading, setLoading] = useState(false)
   const [disable, setDisable] = useState(false)
+
+  const [selectedCat, setSelectedCat] = useState(1)
 
   const textRef = useRef<HTMLTextAreaElement>(null)
   const valueRef = useRef<HTMLInputElement>(null);
@@ -64,6 +82,11 @@ const App = () => {
         <TextArea 
           error={errorText}
           ref={textRef}
+        />
+        <Selector 
+          values={categories}
+          setter={setSelectedCat}
+          defaultValue={0}
         />
         <Button 
           label="Submit"
